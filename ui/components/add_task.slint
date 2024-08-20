@@ -1,0 +1,55 @@
+import { HorizontalBox, VerticalBox } from "std-widgets.slint";
+import { TodoLogic } from "./todo_logic.slint";
+
+export component AddTaskComponent inherits Rectangle {
+    callback add-task();
+
+    padding: 15px;
+
+    add-button := Rectangle {
+        border-radius: 12px;
+        height: 50px;
+        width: parent.width;
+        background: #404054;
+
+        create-task-touch := TouchArea {
+            width: parent.width;
+            height: parent.height;
+            clicked => {
+                root.add-task();
+                TodoLogic.add-task();
+            }
+        }
+
+        HorizontalBox {
+            width: parent.width;
+            alignment: start;
+            padding-left: 20px;
+            spacing: 15px;
+
+            Image {
+                source: @image-url("../assets/add.svg");
+                colorize: #FFFFEF;
+            }
+
+            VerticalBox {
+                padding: 0;
+                padding-top: 7px;
+                Text {
+                    color: #FFFFEF;
+                    text: "Add task";
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+    states [
+        hover-add-task when create-task-touch.has-hover: {
+            add-button.background: #363643;
+        }
+        unhover-add-task when !create-task-touch.has-hover: {
+            add-button.background: #404054;
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+import { Button, VerticalBox, HorizontalBox } from "std-widgets.slint";
+import { NoteComponent } from "./components/note.slint";
+import { TodoLogic } from "./components/todo_logic.slint";
+
+export { TodoLogic }
+
+export component AppWindow inherits Window {
+    height: 600px;
+    width: 800px;
+    background: #404054;
+    padding: 0;
+
+    NoteComponent {
+        parent-width: 800px;
+        alignment: LayoutAlignment.center;
+        parent-height: 600px;
+        width: 600px;
+        height: 570px;
+    }
+}

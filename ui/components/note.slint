@@ -1,0 +1,62 @@
+import { VerticalBox, HorizontalBox } from "std-widgets.slint";
+import { TodoLogic } from "./todo_logic.slint";
+import { TaskComponent } from "./task.slint";
+import { Task } from "./task.struct.slint";
+import { AddTaskComponent } from "./add_task.slint";
+
+export component NoteComponent inherits VerticalBox {
+    in property <length> parent-width;
+    in property <length> parent-height;
+    in-out property <string> list-name <=> TodoLogic.list-name;
+    in-out property <[Task]> task-list <=> TodoLogic.task-list;
+
+    x: (parent-width - self.width) / 2;
+    y: (parent-height - self.height) / 2;
+    padding: 0;
+
+    Rectangle {
+        padding: 0;
+        border-radius: 12px;
+        background: #4c4c61;
+        width: parent.width;
+        height: parent.height;
+
+        VerticalBox {
+            width: parent.width;
+            height: parent.height;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 15px;
+            padding-right: 15px;
+            spacing: 15px;
+            alignment: start;
+
+            TextInput {
+                font-weight: 400;
+                color: #FFFFEF;
+                font-size: 22px;
+                text: root.list-name;
+                width: parent.width - 30px;
+                edited => {
+                    TodoLogic.update-list-name(self.text);
+                }
+            }
+
+            Rectangle {
+                width: parent.width - 30px;
+                border-radius: 2px;
+                height: 3px;
+                background: #FFFFEF;
+            }
+
+            for task in root.task-list: TaskComponent {
+                width: parent.width - 30px;
+                task: task;
+            }
+
+            AddTaskComponent {
+                width: parent.width - 30px;
+            }
+        }
+    }
+}

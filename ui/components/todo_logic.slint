@@ -1,0 +1,19 @@
+import { Task } from "./task.struct.slint";
+
+export global TodoLogic {
+    in-out property <int> list-index;
+    in-out property <string> list-name;
+    in-out property <[Task]> task-list;
+    // name
+    callback update-list-name(string);
+    // list_id
+    callback update-active-index(int);
+    // description
+    callback add-task();
+    // description, task_id
+    callback update-task(string, bool, int);
+    // task_id
+    callback remove-task(int);
+    // list_id
+    callback remove-list(int);
+}
