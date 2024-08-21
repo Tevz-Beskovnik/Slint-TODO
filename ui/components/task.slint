@@ -21,13 +21,40 @@ export component TaskComponent inherits Rectangle {
         }
 
         TextInput {
-            width: root.width - 20px;
+            width: root.width - 100px;
             text: task.description;
             font-size: 16px;
             edited => {
                 root.task.description = self.text;
                 TodoLogic.update-task(self.text, root.task.complete, root.task.id);
             }
+        }
+
+        trash-can := Image {
+            source: @image-url("../assets/delete.svg");
+            colorize: #4c4c61;
+            animate colorize {
+                duration: 150ms;
+                easing: ease-in-out;
+            }
+
+            trash-touch := TouchArea {
+                width: parent.width;
+                height: parent.height;
+
+                clicked => {
+                    TodoLogic.remove-task(root.task.id);
+                }
+            }
+
+            states [
+                hover-trash when trash-touch.has-hover: {
+                    trash-can.colorize: #e64e4e;
+                }
+                unhover-trash when !trash-touch.has-hover: {
+                    trash-can.colorize: #4c4c61;
+                }
+            ]
         }
     }
 }

@@ -1,4 +1,4 @@
-import { VerticalBox, HorizontalBox } from "std-widgets.slint";
+import { VerticalBox, HorizontalBox, ScrollView } from "std-widgets.slint";
 import { TodoLogic } from "./todo_logic.slint";
 import { TaskComponent } from "./task.slint";
 import { Task } from "./task.struct.slint";
@@ -49,13 +49,23 @@ export component NoteComponent inherits VerticalBox {
                 background: #FFFFEF;
             }
 
-            for task in root.task-list: TaskComponent {
-                width: parent.width - 30px;
-                task: task;
-            }
+            ScrollView {
+                padding: 0;
+                width: parent.width;
+                height: parent.height - 73px;
+                viewport-width: parent.width - 30px;
+                viewport-height: root.task-list.length * 65px + 60px;
+                for task in root.task-list: TaskComponent {
+                    width: parent.width - 30px;
+                    y: task.id * 65px;
+                    task: task;
+                }
 
-            AddTaskComponent {
-                width: parent.width - 30px;
+                AddTaskComponent {
+                    width: parent.width - 30px;
+                    height: 45px;
+                    y: root.task-list.length * 65px;
+                }
             }
         }
     }

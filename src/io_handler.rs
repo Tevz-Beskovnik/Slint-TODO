@@ -81,7 +81,7 @@ impl IoHandlerTrait for IoHandlerFs {
 
         let _ = lists_ref.remove(list_id);
 
-        for i in list_id..self.lists.borrow().len() {
+        for i in list_id - 1..self.lists.borrow().len() {
             lists_ref[i].id -= 1;
         }
 
@@ -91,7 +91,7 @@ impl IoHandlerTrait for IoHandlerFs {
     fn remove_task(&self, task_id: usize) -> anyhow::Result<()> {
         let mut lists_ref = self.lists.borrow_mut();
 
-        lists_ref[task_id].remove_task(task_id)
+        lists_ref[self.active_list.borrow().clone()].remove_task(task_id)
     }
 
     fn get_all_reduced_lists(&self) -> Vec<ListReduced> {
