@@ -40,7 +40,7 @@ export component NoteListComponent inherits Rectangle {
                 padding: 0;
                 width: parent.width;
                 height: parent.height;
-                viewport-height: lists.length * 45px;
+                viewport-height: (lists.length + 1) * 65px + 65px;
                 viewport-width: parent.width;
                 for list in root.lists: Rectangle {
                     background: TodoLogic.list-index == list.id ? #5b5b83 : #4c4c61;
