@@ -1,0 +1,13 @@
+export struct Action {
+    id: int,
+    name: string,
+}
+
+export global SpotlightSearchLogic {
+    in property <bool> spotlight-toggled;
+    in property <[Action]> actions;
+    // search for action
+    callback action_search(string);
+    // execute action
+    callback execute_action(int);
+}

@@ -1,4 +1,4 @@
-import { TodoLogic } from "./todo_logic.slint";
+import { TodoLogic } from "./todo.logic.slint";
 import { HorizontalBox, CheckBox, VerticalBox } from "std-widgets.slint";
 import { Task } from "./task.struct.slint";
 
@@ -12,7 +12,7 @@ export component TaskComponent inherits Rectangle {
         alignment: start;
         spacing: 10px;
 
-        CheckBox {
+        check-box := CheckBox {
             checked: task.complete;
             toggled => {
                 root.task.complete = self.checked;
@@ -20,7 +20,7 @@ export component TaskComponent inherits Rectangle {
             }
         }
 
-        TextInput {
+        description := TextInput {
             width: root.width - 100px;
             text: task.description;
             font-size: 16px;

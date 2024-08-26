@@ -1,0 +1,67 @@
+import { HorizontalBox, VerticalBox } from "std-widgets.slint";
+import { SpotlightSearchLogic } from "./spotlight.logic.slint";
+
+export component SpotlightSearchComponent inherits Rectangle {
+    callback focus-spotlight-input();
+    focus-spotlight-input => {
+        text-search.focus();
+    }
+
+    background: #000000;
+    opacity: 0.2;
+    padding: 0;
+
+    Rectangle {
+        x: (root.width - self.width) / 2;
+        y: 200px;
+        border-radius: 12px;
+        border-color: #6e6e83;
+        border-width: 3px;
+        background: #4c4c61;
+        width: 400px;
+        padding: 0;
+        height: 40px;
+        VerticalBox {
+            padding: 0;
+            width: parent.width;
+
+            HorizontalBox {
+                alignment: start;
+                padding: 7px;
+                padding-left: 10px;
+                Image {
+                    source: @image-url("../assets/magnifying.svg");
+                    colorize: #FFFFEF;
+                    width: 22px;
+                }
+
+                text-search := TextInput {
+                    width: root.width - 30px;
+                    font-size: 22px;
+                    font-weight: 100;
+                    text: "";
+                }
+            }
+
+            for action in SpotlightSearchLogic.actions: VerticalBox {
+                width: parent.width;
+                height: 43px;
+                spacing: 0;
+                padding: 0;
+                Rectangle {
+                    height: 3px;
+                    width: parent.width;
+                    padding: 0;
+                    background: #6e6e83;
+                }
+
+                Text {
+                    height: 40px;
+                    font-size: 22px;
+                    font-weight: 100;
+                    text: action.name;
+                }
+            }
+        }
+    }
+}

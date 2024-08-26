@@ -1,9 +1,10 @@
-import { Task } from "./task.struct.slint";
+import { Task, ListReduced } from "./task.struct.slint";
 
 export global TodoLogic {
     in-out property <int> list-index;
     in-out property <string> list-name;
     in-out property <[Task]> task-list;
+    in-out property <[ListReduced]> lists;
     // name
     callback update-list-name(string);
     // list_id
@@ -14,6 +15,8 @@ export global TodoLogic {
     callback update-task(string, bool, int);
     // task_id
     callback remove-task(int);
+    // add new list
+    callback add-list();
     // list_id
     callback remove-list(int);
 }

@@ -1,5 +1,5 @@
 import { VerticalBox, HorizontalBox, ScrollView } from "std-widgets.slint";
-import { TodoLogic } from "./todo_logic.slint";
+import { TodoLogic } from "./todo.logic.slint";
 import { TaskComponent } from "./task.slint";
 import { Task } from "./task.struct.slint";
 import { AddTaskComponent } from "./add_task.slint";
@@ -9,6 +9,15 @@ export component NoteComponent inherits VerticalBox {
     in property <length> parent-height;
     in-out property <string> list-name <=> TodoLogic.list-name;
     in-out property <[Task]> task-list <=> TodoLogic.task-list;
+
+    public function unfocus() {
+        // when we switch active lists we want to unfocus and clear selection 
+        // then set the text, becouse when focused text doesn't get updated from
+        // global singleton like one would think ¯\_(ツ)_/¯
+        note-title.clear-focus();
+        note-title.clear-selection();
+        note-title.text = TodoLogic.list-name;
+    }
 
     x: (parent-width - self.width) / 2;
     y: (parent-height - self.height) / 2;
@@ -31,7 +40,7 @@ export component NoteComponent inherits VerticalBox {
             spacing: 15px;
             alignment: start;
 
-            TextInput {
+            note-title := TextInput {
                 font-weight: 400;
                 color: #FFFFEF;
                 font-size: 22px;
@@ -39,6 +48,7 @@ export component NoteComponent inherits VerticalBox {
                 width: parent.width - 30px;
                 edited => {
                     TodoLogic.update-list-name(self.text);
+                    TodoLogic.lists[TodoLogic.list-index].name = self.text;
                 }
             }
 
@@ -55,7 +65,7 @@ export component NoteComponent inherits VerticalBox {
                 height: parent.height - 73px;
                 viewport-width: parent.width - 30px;
                 viewport-height: root.task-list.length * 65px + 60px;
-                for task in root.task-list: TaskComponent {
+                for task in root.task-list: tasks-comps := TaskComponent {
                     width: parent.width - 30px;
                     y: task.id * 65px;
                     task: task;

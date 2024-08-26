@@ -1,20 +1,45 @@
 import { Button, VerticalBox, HorizontalBox } from "std-widgets.slint";
 import { NoteComponent } from "./components/note.slint";
-import { TodoLogic } from "./components/todo_logic.slint";
+import { SpotlightSearchLogic } from "./components/spotlight.logic.slint";
+import { TodoLogic } from "./components/todo.logic.slint";
+import { NoteListComponent } from "components/note_list.slint";
+import { SpotlightSearchComponent } from "components/spotlight.slint";
 
-export { TodoLogic }
+export { TodoLogic, SpotlightSearchLogic }
 
 export component AppWindow inherits Window {
+    callback focus_spotlight();
+    focus_spotlight => {
+        /*spotlight-search.visible = true;
+        spotlight-search.focus-spotlight-input();*/
+    }
+
     height: 600px;
     width: 800px;
     background: #404054;
     padding: 0;
 
-    NoteComponent {
-        parent-width: 800px;
-        alignment: LayoutAlignment.center;
-        parent-height: 600px;
-        width: 600px;
-        height: 570px;
+    HorizontalBox {
+        NoteListComponent {
+            width: 200px;
+            height: 570px;
+
+            unfocus => {
+                notes.unfocus();
+            }
+        }
+
+        notes := NoteComponent {
+            parent-width: 800px;
+            alignment: LayoutAlignment.center;
+            parent-height: 600px;
+            width: 570px;
+            height: 570px;
+        }
     }
+
+    /*spotlight-search := SpotlightSearchComponent {
+        width: parent.width;
+        height: parent.height;
+    }*/
 }

@@ -1,0 +1,98 @@
+import { TodoLogic } from "./todo.logic.slint";
+import { ListReduced } from "./task.struct.slint";
+import { ScrollView, VerticalBox } from "std-widgets.slint";
+
+export component NoteListComponent inherits Rectangle {
+    in-out property <[ListReduced]> lists <=> TodoLogic.lists;
+    callback unfocus();
+
+    VerticalBox {
+        width: root.width;
+        height: root.height;
+        padding: 0;
+        padding-top: 15px;
+        spacing: 11px;
+
+        Text {
+            x: 15px;
+            font-weight: 400;
+            color: #FFFFEF;
+            font-size: 27px;
+            text: "Lists";
+            width: parent.width - 30px;
+        }
+
+        Rectangle {
+            width: parent.width;
+            border-radius: 2px;
+            height: 3px;
+            background: #FFFFEF;
+        }
+
+        VerticalBox {
+            width: root.width;
+            height: root.height;
+            padding: 0;
+            padding-top: 3px;
+            spacing: 15px;
+
+            ScrollView {
+                padding: 0;
+                width: parent.width;
+                height: parent.height;
+                viewport-height: lists.length * 45px;
+                viewport-width: parent.width;
+                for list in root.lists: Rectangle {
+                    background: TodoLogic.list-index == list.id ? #5b5b83 : #4c4c61;
+                    border-radius: 12px;
+                    height: 50px;
+                    padding: 10px;
+                    y: list.id * 65px;
+                    Text {
+                        text: list.name;
+                        font-size: 20px;
+                    }
+
+                    TouchArea {
+                        width: parent.width;
+                        height: parent.height;
+
+                        clicked => {
+                            TodoLogic.list-index = list.id;
+                            TodoLogic.update-active-index(list.id);
+                            root.unfocus();
+                        }
+                    }
+                }
+
+                Rectangle {
+                    background: #FFFFEF;
+                    border-radius: 2px;
+                    height: 3px;
+                    y: root.lists.length * 65px;
+                }
+
+                Rectangle {
+                    background: #4c4c61;
+                    border-radius: 12px;
+                    height: 50px;
+                    padding: 10px;
+                    y: root.lists.length * 65px + 18px;
+                    Text {
+                        text: "Add list";
+                        font-size: 20px;
+                    }
+
+                    TouchArea {
+                        width: parent.width;
+                        height: parent.height;
+
+                        clicked => {
+                            TodoLogic.add-list();
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
